@@ -28,10 +28,13 @@ app.get("/api", async (req, res) => {
 
     let page = await browser.newPage();
     await page.goto("fetch-media-kohl.vercel.app");
-    res.send(await page.title());
+
+    // Get HTML code instead of just the page title
+    const html = await page.content();
+    res.send(html);
   } catch (err) {
     console.error(err);
-    return null;
+    res.status(500).send("An error occurred while fetching the HTML code.");
   }
 });
 
